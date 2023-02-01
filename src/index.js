@@ -7,11 +7,18 @@ const uri = process.env.DB_URL;
 
 //routes
 app.post("/user", async (req, res) => {
-  mongoose
-    .connect(uri)
-    .then(() => console.log("connected"))
-    .catch((err) => console.log(err));
-  res.end();
+  try {
+    mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useUnifiedTopology: true,
+    });
+    res.json({ connection: "succes!" });
+    res.end();
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
 });
 
 app.get("/", (req, res) => {
@@ -20,4 +27,4 @@ app.get("/", (req, res) => {
 
 //listen\
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, console.log(`https:localhost:${PORT}`));
+app.listen(PORT, console.log(`Server on https:localhost:${PORT}`));
