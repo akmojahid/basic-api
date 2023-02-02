@@ -1,30 +1,58 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+
+//declaration
 const app = express();
+const PORT = process.env.PORT || 6000;
+const uri = process.env.DB;
 
-const uri = process.env.DB_URL;
-
-//routes
-app.post("/user", async (req, res) => {
+//DB conections
+async function connectDB(uri) {
   try {
-    mongoose.connect(uri, {
+    await mongoose.connect(uri, {
       useNewUrlParser: true,
-      useFindAndModify: false,
       useUnifiedTopology: true,
     });
-    res.json({ connection: "succes!" });
-    res.end();
+    console.log("database connected");
   } catch (error) {
-    console.log(error);
-    process.exit(1);
+    console.log("Failed: ", error);
   }
+}
+
+//mongoose code / user schema
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  age: {
+    type: Number,
+    required: true,
+  },
 });
 
-app.get("/", (req, res) => {
-  res.json({ msg: "HEllO DEVELOPER" });
+const User = mongoose.model("User", userSchema);
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.post("/user", async (req, res) => {
+  await connectDB(uri);
+  const reqData = {
+    name: req.body.name,
+    age: req.body.age,
+  };
+  const newUser = new User(reqData);
+  await newUser.save();
+  res.json(await User.find({}));
 });
 
-//listen\
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, console.log(`Server on https:localhost:${PORT}`));
+//GET request
+app.get("*", (req, res) => {
+  res.send("<h1>HELLO DEVELOPER</h1>");
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
