@@ -1,58 +1,72 @@
-require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-
-//declaration
 const app = express();
-const PORT = process.env.PORT || 6000;
-const uri = process.env.DB;
+//----------------------------------------
 
-//DB conections
-async function connectDB(uri) {
-  try {
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("database connected");
-  } catch (error) {
-    console.log("Failed: ", error);
-  }
-}
+const uri =
+  "mongodb+srv://akmojahid:017766512@cluster0.ls8vekp.mongodb.net/products_db";
+mongoose.set("strictQuery", false);
 
-//mongoose code / user schema
-const userSchema = new mongoose.Schema({
-  name: {
+mongoose.connect(uri);
+
+const connection = mongoose.connection;
+
+connection.once("open", () => {
+  console.log("MongoDB Atlas connection established successfully");
+});
+
+connection.on("error", (error) => {
+  console.error("MongoDB Atlas connection error: ", error);
+});
+
+//user Schema
+const productSchema = new mongoose.Schema({
+  title: {
     type: String,
     required: true,
   },
-  age: {
-    type: Number,
-    required: true,
+  price: Number,
+  createAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 
-const User = mongoose.model("User", userSchema);
+// model / collections
+const Product = mongoose.model("Products", productSchema);
+
+//--------------------------------------
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.post("/user", async (req, res) => {
-  await connectDB(uri);
-  const reqData = {
-    name: req.body.name,
-    age: req.body.age,
-  };
-  const newUser = new User(reqData);
-  await newUser.save();
-  res.json(await User.find({}));
+//--------------------------------------
+
+app.post("/create", async (req, res) => {
+  try {
+    const myProduct = new Product({
+      title: req.body.title,
+      price: req.body.price,
+    });
+    const productData = await myProduct.save();
+    res.status(201).send(productData);
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
-//GET request
-app.get("*", (req, res) => {
-  res.send("<h1>HELLO DEVELOPER</h1>");
+app.get("/products", (req, res) => {
+  try {
+    Product.find((err, data) => {
+      console.log(err);
+      res.setHeader("Content-type", "application/json");
+      res.send(data);
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(3000, () => {
+  console.log("Express app listening on port 3000");
 });
