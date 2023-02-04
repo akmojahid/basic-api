@@ -11,7 +11,11 @@ exports.error = (req, res, next) => {
 //GET route
 exports.home = async (req, res) => {
   try {
-    res.status(200).json({ succes: true, data: await db.Products.find() });
+    res.status(200).json({
+      succes: true,
+      total: await db.Products.countDocuments(),
+      data: await db.Products.find().limit(10).select({ _id: 0 }),
+    });
   } catch (error) {
     console.log(error);
   }
