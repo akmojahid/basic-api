@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/app",
-    "test": "node index"
+    "test": "node index",
+    "push": "git add . && git commit -m 'varifiyed' && git push origin main && git pull origin main"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/akmojahid/my_project.git"
+    "url": "git+https://github.com/akmojahid/basic-api.git"
   },
   "author": "",
   "license": "MIT",
