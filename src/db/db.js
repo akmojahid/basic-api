@@ -8,8 +8,8 @@ exports.connectDB = async (req, res, next) => {
     mongoose.set("strictQuery", false);
     await mongoose.connect(uri);
     console.log("DB is connected!");
-  } catch (error) {
-    res.statas(500).json({ msg: "Database conection failed!", erorr: error });
+  } catch (err) {
+    res.status(500).json({ msg: "Database conection failed!", Error: err });
     process.exit(1);
   }
   next();

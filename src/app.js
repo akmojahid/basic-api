@@ -10,6 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("*", route.error);
 
 // GET route regiseter
+
 app.get("/", route.home);
 
 app.get("/:id", route.findById);

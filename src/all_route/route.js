@@ -9,7 +9,8 @@ exports.error = (req, res, next) => {
 };
 
 //GET route
-exports.home = async (req, res) => {
+
+exports.home = async (_req, res) => {
   try {
     res.status(200).json({
       succes: true,
