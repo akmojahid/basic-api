@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/app",
-    "test": "node index",
-    "push": "git add . && git commit -m 'varifiyed' && git push origin main && git pull origin main && echo 'succes!'"
+    "test": "node index"
   },
   "repository": {
     "type": "git",
