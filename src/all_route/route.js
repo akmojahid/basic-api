@@ -2,7 +2,7 @@ const db = require("../db/db");
 //Error handlr
 exports.error = (req, res, next) => {
   if (req.statsCode == 404) {
-    res.status(500).json({ msg: "invalid route: " + req.url });
+    res.status(500).json({ msg: "Invalid route: " + req.url });
   } else {
     next();
   }
@@ -27,7 +27,7 @@ exports.findById = async (req, res) => {
     const id = req.params.id;
     res.status(200).json(await db.Products.findById(id));
   } catch (error) {
-    res.status(500).json({ msg: "Something went wrong", Error: error });
+    res.status(500).json({ msg: "Something gone wrong", Error: error });
     console.log(error);
   }
 };

@@ -3,7 +3,7 @@ require("dotenv").config();
 const uri = process.env.DB;
 
 //module exprots
-exports.connectDB = async (req, res, next) => {
+exports.connectDB = async (_req, res, next) => {
   try {
     mongoose.set("strictQuery", false);
     await mongoose.connect(uri);
