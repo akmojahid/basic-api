@@ -2,7 +2,7 @@ const db = require("../db/db");
 //Error handlr
 exports.error = (req, res, next) => {
   if (req.statsCode == 404) {
-    res.status(500).json({ msg: "Invalid route: " + req.url });
+    res.status(500).json({ msg: "This is Invalid route: " + req.url });
   } else {
     next();
   }
