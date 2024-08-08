@@ -4,7 +4,6 @@ This is a simple `Node.js, express.js mongodb` API to create data, such as Produ
 
 ## how to user it
 
-
 ## CRUD API
 This is a simple `Node.js, express.js mongodb` API to create data, such as Product, user etc.
 
@@ -33,5 +32,5 @@ src
     |_ db.js
   |_ app.js  
 ```
-$_This page is under-development
+$_This page is under-development.
 

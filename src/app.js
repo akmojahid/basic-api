@@ -24,7 +24,7 @@ app.post("/create", route.createProducts);
 
 //listener
 require("dotenv").config();
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 3l000;
 
 app.listen(PORT, () => {
   console.log("Server Running on PORT ", PORT);
