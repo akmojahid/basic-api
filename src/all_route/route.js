@@ -2,7 +2,7 @@ const db = require("../db/db");
 //Error handlr
 exports.error = (req, res, next) => {
   if (req.statsCode == 404) {
-    res.status(500).json({ msg: "This is Invalid route: " + req.url });
+    res.status(500).json({ msg: "It Maybe Invalid Route: " + req.url });
   } else {
     next();
   }
@@ -82,7 +82,7 @@ exports.deleteById = async (req, res) => {
     await db.Products.deleteOne({ _id: id });
     res.status(200).json({ succes: true, delete: 1, _id: id });
   } catch (error) {
-    res.status(500).json({ msg: "something went wrong", Error: error });
+    res.status(500).json({ msg: "Something gone wrong", Error: error });
     console.log(error);
   }
 };
